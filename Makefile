@@ -6,7 +6,8 @@ LDFLAGS = -lreadline
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS = src/main.c
+SRCS = src/main.c src/signals/signals.c src/signals/signals_utils.c \
+       src/parser/tokenizer.c src/parser/tokenizer_utils.c src/parser/parser.c \
 
 OBJS = $(SRCS:.c=.o)
 

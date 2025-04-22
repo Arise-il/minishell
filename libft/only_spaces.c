@@ -6,17 +6,17 @@
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:52:20 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/20 14:51:01 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/04/22 15:51:31 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	only_spaces(char *str)
+int	only_spaces(const char *str)
 {
 	while (*str)
 	{
-		if (*str == ' ' || *str == '\t')
+		if (*str != ' ' && *str != '\t')
 			return (0);
 		str++;
 	}

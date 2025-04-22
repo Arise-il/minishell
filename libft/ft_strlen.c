@@ -1,39 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/20 09:03:46 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/22 15:49:02 by oouhlale         ###   ########.fr       */
+/*   Created: 2025/04/22 15:16:59 by oouhlale          #+#    #+#             */
+/*   Updated: 2025/04/22 15:46:25 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int	main(void)
+size_t	ft_strlen(const char *str)
 {
-	char	*input;
+	size_t	i;
 
-	using_history();
-	setup_signals();
-	disable_ctrl_echo();
-	rl_bind_key('\t', rl_complete);
-	while (1)
-	{
-		input = readline("minishell$ ");
-		if (!input)
-			break ;
-		if (!*input || only_spaces(input))
-		{
-			free(input);
-			continue ;
-		}
-		add_history(input);
-		parse_input(input);
-		free(input);
-	}
-	rl_clear_history();
-	return (0);
+	i = 0;
+	while (str && str[i] != '\0')
+		i++;
+	return (i);
 }

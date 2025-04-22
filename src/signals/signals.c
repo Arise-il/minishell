@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 11:51:02 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/22 15:52:07 by oouhlale         ###   ########.fr       */
+/*   Created: 2025/04/21 15:30:59 by oouhlale          #+#    #+#             */
+/*   Updated: 2025/04/22 15:50:19 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_token	*tokenize_input(char *line)
+void	handle_sigint(int sig)
 {
-	t_token	*tokens;
-	int		i;
-	char	*quoted;
-	char	*word;
+	(void)sig;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
 
-	tokens = NULL;
-	i = 0;
-	while (line[i])
-	{
-		while (line[i] == ' ' || line[i] == '\t')
-			i++;
-		if (line[i] == '\'' || line[i] == '"')
-		{
-			quoted = extract_quoted(line, &i);
-			add_token(&tokens, new_token(quoted));
-		}
-		else if (line[i])
-		{
-			word = extract_word(line, &i);
-			add_token(&tokens, new_token(word));
-		}
-	}
-	return (tokens);
+void	setup_signals(void)
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }

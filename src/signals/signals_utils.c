@@ -1,40 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   signals_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 11:51:02 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/22 15:52:07 by oouhlale         ###   ########.fr       */
+/*   Created: 2025/04/21 15:47:59 by oouhlale          #+#    #+#             */
+/*   Updated: 2025/04/22 15:51:16 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_token	*tokenize_input(char *line)
+void	disable_ctrl_echo(void)
 {
-	t_token	*tokens;
-	int		i;
-	char	*quoted;
-	char	*word;
+	struct termios	term;
 
-	tokens = NULL;
-	i = 0;
-	while (line[i])
-	{
-		while (line[i] == ' ' || line[i] == '\t')
-			i++;
-		if (line[i] == '\'' || line[i] == '"')
-		{
-			quoted = extract_quoted(line, &i);
-			add_token(&tokens, new_token(quoted));
-		}
-		else if (line[i])
-		{
-			word = extract_word(line, &i);
-			add_token(&tokens, new_token(word));
-		}
-	}
-	return (tokens);
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
