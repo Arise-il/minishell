@@ -43,5 +43,3 @@ minishell/
     ├── executor.h         # Execution-related structs and prototypes
     ├── env.h              # Environment variable handling
     └── signals.h          # Signal-related includes
-
-echo "dscdk" > file.txt

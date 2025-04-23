@@ -6,7 +6,7 @@
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:51:21 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/20 14:51:22 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/04/22 15:24:42 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-int	only_spaces(char *str);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+int		only_spaces(const char *str);
+size_t	ft_strlen(const char *str);
+char	*ft_strdup(const char *s1);
 
 #endif
