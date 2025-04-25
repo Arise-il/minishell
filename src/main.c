@@ -6,7 +6,7 @@
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:03:46 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/22 15:49:02 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/04/25 08:48:58 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(void)
 		input = readline("minishell$ ");
 		if (!input)
 			break ;
-		if (!*input || only_spaces(input))
+		if (!*input || only_spaces(input) || check_unclosed_quotes(input))
 		{
 			free(input);
 			continue ;

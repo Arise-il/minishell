@@ -1,37 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   is_quote.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 15:03:44 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/25 07:01:50 by oouhlale         ###   ########.fr       */
+/*   Created: 2025/04/24 13:06:56 by oouhlale          #+#    #+#             */
+/*   Updated: 2025/04/24 13:21:01 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	print_tokens(t_token *tokens)
+int	is_quote(char c)
 {
-	while (tokens)
-	{
-		printf("value: %-15s | type: %d\n", tokens->value, tokens->type);
-		tokens = tokens->next;
-	}
-}
-
-void	parse_input(char *input)
-{
-	t_token	*tokens;
-	t_token	*tmp;
-
-	tokens = tokenize_input(input);
-	tmp = tokens;
-	while (tmp)
-	{
-		printf("Token: [%s]\n", tmp->value);
-		tmp = tmp->next;
-	}
-	free_tokens(tokens);
+	return (c == '\'' || c == '"');
 }

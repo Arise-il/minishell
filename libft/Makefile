@@ -3,7 +3,8 @@ NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
  
-SRCS = only_spaces.c ft_substr.c ft_strlen.c ft_strdup.c
+SRCS = only_spaces.c ft_substr.c ft_strlen.c ft_strdup.c ft_strcmp.c \
+       is_quote.c is_operator.c
 
 OBJS = $(SRCS:.c=.o)
 

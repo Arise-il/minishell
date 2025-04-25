@@ -1,37 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   is_operator.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 15:03:44 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/25 07:01:50 by oouhlale         ###   ########.fr       */
+/*   Created: 2025/04/24 13:09:18 by oouhlale          #+#    #+#             */
+/*   Updated: 2025/04/24 16:04:41 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	print_tokens(t_token *tokens)
+int	is_operator(char c)
 {
-	while (tokens)
-	{
-		printf("value: %-15s | type: %d\n", tokens->value, tokens->type);
-		tokens = tokens->next;
-	}
-}
-
-void	parse_input(char *input)
-{
-	t_token	*tokens;
-	t_token	*tmp;
-
-	tokens = tokenize_input(input);
-	tmp = tokens;
-	while (tmp)
-	{
-		printf("Token: [%s]\n", tmp->value);
-		tmp = tmp->next;
-	}
-	free_tokens(tokens);
+	return (c == '|' || c == '<' || c == '>');
 }
