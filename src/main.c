@@ -6,7 +6,7 @@
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:03:46 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/25 08:48:58 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/04/28 09:53:38 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(void)
 {
 	char	*input;
+	t_cmd	*cmd_list;
 
 	using_history();
 	setup_signals();
@@ -31,8 +32,9 @@ int	main(void)
 			continue ;
 		}
 		add_history(input);
-		parse_input(input);
+		cmd_list = parse_input(input);
 		free(input);
+		free_cmd_list(cmd_list);
 	}
 	rl_clear_history();
 	return (0);

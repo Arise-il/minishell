@@ -6,24 +6,11 @@
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 11:51:02 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/25 07:01:07 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/04/28 09:47:27 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	free_tokens(t_token *tokens)
-{
-	t_token	*tmp;
-
-	while (tokens)
-	{
-		tmp = tokens->next;
-		free(tokens->value);
-		free(tokens);
-		tokens = tmp;
-	}
-}
 
 t_token_type	get_token_type(char *value)
 {
