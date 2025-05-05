@@ -6,7 +6,7 @@
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:03:53 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/28 09:49:40 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/04/29 09:44:39 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char			*extract_operator(const char *line, int *i);
 t_token_type	get_token_type(char *value);
 t_token			*tokenize_input(char *line);
 int				check_unclosed_quotes(const char *input);
+int				check_syntax(t_token *tokens);
 t_cmd			*build_command_table(t_token *tokens);
 t_cmd			*parse_input(char *input);
 void			free_tokens(t_token *tokens);
