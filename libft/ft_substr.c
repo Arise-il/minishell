@@ -6,7 +6,7 @@
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 16:59:50 by oouhlale          #+#    #+#             */
-/*   Updated: 2024/11/11 13:17:19 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/05/31 09:46:48 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (ft_strdup(""));
 	if (len > s_len - start)
 		len = s_len - start;
-	substr = malloc((len + 1) * sizeof(char));
+	substr = ft_malloc((len + 1) * sizeof(char), 1);
 	if (!substr)
 		return (NULL);
 	i = 0;

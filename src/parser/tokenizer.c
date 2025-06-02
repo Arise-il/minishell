@@ -6,7 +6,7 @@
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 11:51:02 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/28 09:47:27 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/05/23 07:54:45 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,30 +31,26 @@ t_token	*tokenize_input(char *line)
 {
 	t_token	*tokens;
 	int		i;
-	char	*quoted;
 	char	*word;
+	int		quoted;
 	char	*op;
 
 	tokens = NULL;
 	i = 0;
 	while (line[i])
 	{
-		while (line[i] == ' ' || line[i] == '\t')
+		while (ft_isspace(line[i]))
 			i++;
-		if (is_quote(line[i]))
-		{
-			quoted = extract_quoted(line, &i);
-			add_token(&tokens, new_token(quoted, WORD));
-		}
-		else if (is_operator(line[i]))
+		if (is_operator(line[i]))
 		{
 			op = extract_operator(line, &i);
-			add_token(&tokens, new_token(op, get_token_type(op)));
+			add_token(&tokens, new_token(op, get_token_type(op), 0));
 		}
 		else if (line[i])
 		{
-			word = extract_word(line, &i);
-			add_token(&tokens, new_token(word, WORD));
+			quoted = 0;
+			word = extract_word(line, &i, &quoted);
+			add_token(&tokens, new_token(word, WORD, quoted));
 		}
 	}
 	return (tokens);

@@ -6,7 +6,7 @@
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 08:48:07 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/29 10:00:22 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/05/23 07:59:45 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ int	check_syntax(t_token *tokens)
 		{
 			// Check if pipe is at the beginning or end
 			if (last_type == PIPE || last_type == -1)
-				return (write(2, "Unexpected pipe at the beginning or after another pipe\n", 57));
-			if (!tokens->next)  // If pipe is at the end
-				return (write(2, "Unexpected pipe at the end\n", 29));
+				return (write(2, "Unexpected pipe\n", 17));
+			if (!tokens->next) // If pipe is at the end
+				return (write(2, "syntax error near unexpected token `|'\n", 40));
 		}
 		else if (tokens->type == REDIR_IN || tokens->type == REDIR_OUT
 			|| tokens->type == REDIR_APPEND || tokens->type == HEREDOC)
 		{
 			// Check if redirection operator is not followed by a valid file or command
 			if (!tokens->next || tokens->next->type != WORD)
-				return (write(2, "Redirection operator must be followed by a valid file or command\n", 67));
+				return (write(2, "Redirection operator must be followed by a valid file or command\n", 66));
 		}
 		last_type = tokens->type;
 		tokens = tokens->next;

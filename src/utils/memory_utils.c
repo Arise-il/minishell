@@ -6,7 +6,7 @@
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:46:29 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/04/28 09:47:38 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:21:44 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,21 @@ void	free_cmd_list(t_cmd *cmd_list)
 		free(cmd_list);
 		cmd_list = tmp;
 	}
+}
+
+void	free_2d(char **arr)
+{
+	for (int i = 0; arr[i]; i++)
+		free(arr[i]);
+	free(arr);
+}
+
+void	free_str_array(char **arr)
+{
+	int	i = 0;
+	if (!arr)
+		return;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
 }

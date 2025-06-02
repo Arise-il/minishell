@@ -6,7 +6,7 @@
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:13:30 by oouhlale          #+#    #+#             */
-/*   Updated: 2024/11/09 14:20:45 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/05/31 09:46:26 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strdup(const char *s1)
 	int		i;
 
 	i = 0;
-	s2 = malloc(ft_strlen(s1) * sizeof(char) + 1);
+	s2 = ft_malloc(ft_strlen(s1) * sizeof(char) + 1, 1);
 	if (!s2)
 	{
 		return (NULL);
