@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:35:27 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/05/31 18:54:59 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:07:14 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ static int	go_to_path(int option, t_env *env)
 int				ft_cd(char **args, t_env *env)
 {
 	int		cd_ret;
-	// char 	*oldpwd;
+	char 	*oldpwd;
 	
 
 	if (!args[1]) //If no arguments: go to HOME
@@ -151,21 +151,29 @@ int				ft_cd(char **args, t_env *env)
 	}
 		
 	if (ft_strcmp(args[1], "-") == 0) //If argument is -: go to OLDPWD
-		cd_ret = go_to_path(1, env); 
-	else// Else: try to chdir into the given path and update OLDPWD
-	{
-		update_oldpwd(env);
-		cd_ret = chdir(args[1]);
-		if (cd_ret == 0)
-		{
-			// update_oldpwd(env);  // before you move
-			update_pwd(env);     // after you move
-		}
-
-		if (cd_ret < 0)
-			cd_ret *= -1;
-		if (cd_ret != 0)
-			print_error(args);
-	}
+		cd_ret = go_to_path(1, env);
+	oldpwd = get_env_value("PWD", env);
+	if (!oldpwd)
+    	oldpwd = getcwd(NULL, 0);
+    cd_ret = chdir(args[1]);
+	if (cd_ret == 0)
+    {
+        // On success, update OLDPWD and PWD
+        if (oldpwd)
+        {
+            char *oldpwd_str = ft_strjoin("OLDPWD=", oldpwd);
+            if (env_update(oldpwd_str, env) == ERROR)
+    			env_add(oldpwd_str, env);
+            free(oldpwd_str);
+        }
+        update_pwd(env); // This should get current directory and update PWD in env
+    }
+    else
+    {
+        print_error(args);
+    }
+	if (cd_ret < 0)
+		return (-cd_ret);
 	return (cd_ret);
 }
+

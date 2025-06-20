@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:03:46 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/06/02 14:21:09 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/06/20 10:26:27 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	main(int argc, char **argv, char **envp)
 		if (!*input || only_spaces(input) || check_unclosed_quotes(input))	
 			continue ;
 		cmd_list = parse_input(input, mini.env, last_exit_status);
-		if (cmd_list)
-			print_cmds(cmd_list);
+		// if (cmd_list)
+		// 	print_cmds(cmd_list);
 		if (!cmd_list)
 			mini.exit_status = 1 ;
 		else if (!cmd_list->args || !cmd_list->args[0] || cmd_list->args[0][0] == '\0')

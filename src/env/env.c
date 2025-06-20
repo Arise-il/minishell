@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:36:09 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/01 13:27:22 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/06/20 10:55:23 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,30 @@ char			*env_to_str(t_env *lst)
 	env[i] = '\0';
 	return (env);
 }
+void add_env(t_env **env_list, char *value)
+{
+    t_env *new_node;
+    t_env *tmp;
+
+    new_node = ft_malloc(sizeof(t_env), 1);
+    if (!new_node)
+        return; // handle malloc failure as you want
+
+    new_node->value = value;  // take ownership of the string pointer
+    new_node->next = NULL;
+
+    if (!*env_list)
+    {
+        *env_list = new_node;
+        return;
+    }
+
+    tmp = *env_list;
+    while (tmp->next)
+        tmp = tmp->next;
+
+    tmp->next = new_node;
+}
 
 int				env_init(t_mini *mini, char **env_array)
 {
@@ -65,7 +89,22 @@ int				env_init(t_mini *mini, char **env_array)
 	t_env	*new;
 	int		i;
 
-	if (!(env = ft_malloc(sizeof(t_env), 1)))
+	mini->env = NULL;  // start empty
+	if (!env_array || !*env_array)
+	{
+		char cwd[1024];
+		if (getcwd(cwd, sizeof(cwd)))
+		{
+			add_env(&mini->env, ft_strjoin("PWD=", cwd));
+			add_env(&mini->env, ft_strdup("SHLVL=1"));
+			add_env(&mini->env, ft_strdup("_=/usr/bin/env"));
+		}
+		return (0); // ✅ early return to prevent crash
+	}
+
+	// ✅ Continue if env_array is not empty
+	env = ft_malloc(sizeof(t_env), 1);
+	if (!env)
 		return (1);
 	env->value = ft_strdup(env_array[0]);
 	env->next = NULL;
