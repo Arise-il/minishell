@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:35:19 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/05/23 09:36:12 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:44:06 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,9 @@ int		ft_pwd(void)
 		return (SUCCESS);
 	}
 	else
+	{
+		ft_putendl_fd("minishell: pwd: error retrieving current directory: No such file or directory", 2);
 		return (ERROR);
+	}
+
 }

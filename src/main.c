@@ -6,23 +6,48 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:03:46 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/06/20 10:26:27 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:53:47 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	env_clear(t_env *env)
+void update_pwd_env(t_env **env)
 {
-	t_env	*tmp;
+    char *cwd = getcwd(NULL, 0);
+    if (!cwd)
+    {
+        // getcwd failed: directory deleted or inaccessible
+        perror("minishell: getcwd");
+        return;
+    }
+    char *pwd_str = ft_strjoin("PWD=", cwd);
+    free(cwd);
+    if (!pwd_str)
+        return;
+    if (env_update(pwd_str, *env) == ERROR)
+        env_add(pwd_str, *env);
+    free(pwd_str);
+}
 
-	while (env)
-	{
-		tmp = env;
-		free(env->value);
-		env = env->next;
-		free(tmp);
-	}
+
+void check_cwd_and_recover(t_env **env)
+{
+    char *cwd = getcwd(NULL, 0);
+    if (!cwd)
+    {
+        ft_putendl_fd("minishell: warning: current directory deleted or inaccessible", 2);
+        char *home = get_env_value("HOME", *env);
+        if (home && chdir(home) == 0)
+            update_pwd_env(env);
+        else if (chdir("/") == 0)
+            update_pwd_env(env);
+        else
+            ft_putendl_fd("minishell: fatal: cannot recover current directory", 2);
+    }
+    else
+    {
+        free(cwd);
+    }
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -43,6 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	rl_bind_key('\t', rl_complete);
 	while (1)
 	{
+		//check_cwd_and_recover(&mini.env);
 		input = readline("minishell$ ");
 		if (!input)
 			break ;
@@ -62,7 +88,6 @@ int	main(int argc, char **argv, char **envp)
 		//ft_malloc(0, 0);
 		free(input);
 	}
-	//env_clear(mini.env);
 	ft_malloc(0, 0);
 	rl_clear_history();
 	return (0);
