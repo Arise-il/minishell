@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 08:26:48 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/20 10:51:36 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:20:35 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int			ft_echo(char **args);
 int		    ft_env(t_env *env);
 void	mini_exit(t_cmd *cmd, char **args, t_mini *mini);
 int			ft_export(char **args, t_env *env);
-int		    ft_pwd(void);
+int ft_pwd(t_env *env);
 int				ft_unset(char **a, t_mini *mini);
 
 //env

@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:35:27 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/20 11:07:14 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:58:38 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,32 @@ static int	go_to_path(int option, t_env *env)
 	return (ret);
 }
 
+char	*ft_strjoin1(const char *s1, const char *s2)
+{
+	char	*concat;
+	int		i;
+	int		j;
+
+	if (!s1 || !s2)
+		return (NULL);
+	concat = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (concat == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i])
+	{
+		concat[j++] = s1[i++];
+	}
+	i = 0;
+	while (s2[i])
+	{
+		concat[j++] = s2[i++];
+	}
+	concat[j] = '\0';
+	return (concat);
+}
+
 int				ft_cd(char **args, t_env *env)
 {
 	int		cd_ret;
@@ -149,7 +175,6 @@ int				ft_cd(char **args, t_env *env)
 		print_error(args);
 		return (1); // Return 1 for error if only one argument is given
 	}
-		
 	if (ft_strcmp(args[1], "-") == 0) //If argument is -: go to OLDPWD
 		cd_ret = go_to_path(1, env);
 	oldpwd = get_env_value("PWD", env);
@@ -158,6 +183,14 @@ int				ft_cd(char **args, t_env *env)
     cd_ret = chdir(args[1]);
 	if (cd_ret == 0)
     {
+		char *new_pwd = getcwd(NULL, 0);
+    	if (!new_pwd)
+    	{
+       		// `chdir` succeeded, but directory is invalid or deleted
+        	ft_putstr_fd("minishell: pwd: error retrieving current directory: No such file or directory\n", 2);
+			return (1);
+   		}
+        free(new_pwd);
         // On success, update OLDPWD and PWD
         if (oldpwd)
         {
@@ -176,4 +209,5 @@ int				ft_cd(char **args, t_env *env)
 		return (-cd_ret);
 	return (cd_ret);
 }
+
 

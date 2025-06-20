@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 08:48:23 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/20 10:51:23 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:20:23 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		exec_builtin(char **args, t_mini *mini)
 	else if (ft_strcmp(args[0], "cd") == 0)
 		result = ft_cd(args, mini->env);
 	else if (ft_strcmp(args[0], "pwd") == 0)
-		result = ft_pwd();
+		result = ft_pwd(mini->env);
 	else if (ft_strcmp(args[0], "env") == 0)
 		result = ft_env(mini->env);
 	else if (ft_strcmp(args[0], "export") == 0)
