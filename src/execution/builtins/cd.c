@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:35:27 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/20 15:58:38 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/24 12:22:14 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static int	update_oldpwd(t_env *env)
 	{
 		if (ft_strncmp(env->value, "OLDPWD=", 7) == 0)
 		{
-			//free(env->value);
 			env->value = oldpwd;  // Take ownership of oldpwd
 			return (SUCCESS);
 		}
@@ -197,7 +196,7 @@ int				ft_cd(char **args, t_env *env)
             char *oldpwd_str = ft_strjoin("OLDPWD=", oldpwd);
             if (env_update(oldpwd_str, env) == ERROR)
     			env_add(oldpwd_str, env);
-            free(oldpwd_str);
+            //free(oldpwd_str);
         }
         update_pwd(env); // This should get current directory and update PWD in env
     }
@@ -211,3 +210,66 @@ int				ft_cd(char **args, t_env *env)
 }
 
 
+// int ft_cd(char **args, t_env *env)
+// {
+//     int cd_ret;
+//     char *oldpwd_raw = NULL;
+//     char *oldpwd = NULL;
+//     char *oldpwd_str = NULL;
+
+//     if (!args[1]) // No argument -> go to HOME
+//         return go_to_path(0, env);
+
+//     if (args[2]) // Too many arguments error
+//     {
+//         print_error(args);
+//         return (1);
+//     }
+
+//     if (ft_strcmp(args[1], "-") == 0) // cd -
+//         return go_to_path(1, env);
+
+//     // Get old PWD string from env, always strdup to own a copy
+//     oldpwd_raw = get_env_value("PWD", env);
+//     if (!oldpwd_raw) // fallback if not found
+//         oldpwd = getcwd(NULL, 0);
+//     else
+//         oldpwd = ft_strdup(oldpwd_raw);
+//     free(oldpwd_raw);
+
+//     cd_ret = chdir(args[1]);
+//     if (cd_ret == 0)
+//     {
+//         char *new_pwd = getcwd(NULL, 0);
+//         if (!new_pwd)
+//         {
+//             ft_putstr_fd("minishell: pwd: error retrieving current directory: No such file or directory\n", 2);
+//             free(oldpwd);
+//             return 1;
+//         }
+
+//         if (oldpwd)
+//         {
+//             oldpwd_str = ft_strjoin("OLDPWD=", oldpwd);
+//             if (oldpwd_str)
+//             {
+//                 if (env_update(oldpwd_str, env) == ERROR)
+//                     env_add(oldpwd_str, env);
+//                 free(oldpwd_str);
+//             }
+//         }
+//         free(oldpwd);
+//         free(new_pwd);
+
+//         update_pwd(env); // Updates PWD in env, assumed safe
+//     }
+//     else
+//     {
+//         print_error(args);
+//         free(oldpwd);
+//     }
+
+//     if (cd_ret < 0)
+//         return (-cd_ret);
+//     return (cd_ret);
+// }

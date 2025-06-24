@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:35:52 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/20 11:20:32 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/24 12:14:11 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	env_update(char *new_value, t_env *env)
 		get_env_name(env_name, env->value);
 		if (ft_strcmp(var_name, env_name) == 0)
 		{
-			free(env->value);
+			//free(env->value);
 			env->value = ft_strdup(new_value);
 			if (!env->value)
 				return (ERROR);
@@ -145,6 +145,9 @@ int	ft_export(char **args, t_env *env)
 {
 	int		error_ret;
 	int		i;
+	int		status;
+
+	status = 0;
 
 	if (!args[1])
 	{
@@ -157,6 +160,7 @@ int	ft_export(char **args, t_env *env)
 		if (!is_valid_identifier(args[i]))
 		{
 			fprintf(stderr, "export: `%s': not a valid identifier\n", args[i]);
+			status = 1; // Mark failure
 			i++;
 			continue;
 		}
@@ -166,6 +170,7 @@ int	ft_export(char **args, t_env *env)
 		if (error_ret <= 0)
 		{
 			print_error(error_ret, args[i]);
+			status = 1; // Mark failure
 			i++;
 			continue;
 		}
@@ -175,5 +180,5 @@ int	ft_export(char **args, t_env *env)
 			env_add(args[i], env);
 		i++;
 	}
-	return (SUCCESS);
+	return (status);
 }
