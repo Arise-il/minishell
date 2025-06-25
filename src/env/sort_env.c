@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:22:35 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/25 16:46:53 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:22:51 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,7 @@ void	print_sorted_env(t_env *env)
 	i = 0;
 	while (tab[i])
 	{
-		if (ft_strchr(tab[i], '='))
-			printf("declare -x %s\n", tab[i]);
-		else
-			printf("declare -x %s\n", tab[i]);
+		printf("declare -x %s\n", tab[i]);
 		i++;
 	}
 	free(tab);

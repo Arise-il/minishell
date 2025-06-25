@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 08:26:48 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/25 16:30:04 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:22:07 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ int				secret_env_init(t_mini *mini, char **env_array);
 char	*get_env_value(char *arg, t_env *env);
 void				increment_shell_level(t_env *env);
 void		print_sorted_env(t_env *env);
-int				env_init(t_mini *mini, char **env_array);
+int	env_init(t_mini *mini, char **env_array);
+char	*env_to_str(t_env *lst);
+size_t	size_env(t_env *lst);
 
 int			env_add(const char *value, t_env *env);
 int			is_in_env(t_env *env, char *args);
@@ -69,7 +71,7 @@ int		is_valid_env(const char *env);
 int			is_in_env(t_env *env, char *args);
 char		*get_env_name(char *dest, const char *src);
 char			*env_to_str(t_env *lst);
-void	free_tab(char **tab);
+
 void	setup_pipes(t_cmd *cmd, int prev_read_fd, int pipe_fd[2]);
 void	close_unused_fds(int *prev_read_fd, t_cmd *cmd, int pipe_fd[2]);
 int 	run_builtin_no_pipe(t_cmd *cmd, t_mini *mini);

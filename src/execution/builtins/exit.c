@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:35:47 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/25 16:32:03 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:16:14 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	mini_exit(t_cmd *cmd, char **args, t_mini *mini)
 		return ;
 	}
 	else if (args[1]
-		&& (ft_strisnum(args[1])
+		&& (!ft_strisnum(args[1])
 			|| ft_atol(args[1]) > LLONG_MAX_STR))
 	{
 		ft_putstr_fd("minishell: exit: ", STDERR);

@@ -6,56 +6,11 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:36:09 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/25 16:41:00 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:21:38 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
-
-size_t	size_env(t_env *lst)
-{
-	size_t	lst_len;
-
-	lst_len = 0;
-	while (lst && lst->next != NULL)
-	{
-		if (lst->value != NULL)
-		{
-			lst_len += ft_strlen(lst->value);
-			lst_len++;
-		}
-		lst = lst->next;
-	}
-	return (lst_len);
-}
-
-char	*env_to_str(t_env *lst)
-{
-	char	*env;
-	int		i;
-	int		j;
-
-	env = ft_malloc(sizeof(char) * (size_env(lst) + 1), 1);
-	if (!env)
-		return (NULL);
-	i = 0;
-	while (lst && lst->next != NULL)
-	{
-		if (lst->value != NULL)
-		{
-			j = 0;
-			while (lst->value[j])
-			{
-				env[i++] = lst->value[j++];
-			}
-		}
-		if (lst->next->next != NULL)
-			env[i++] = '\n';
-		lst = lst->next;
-	}
-	env[i] = '\0';
-	return (env);
-}
 
 void	add_env(t_env **env_list, char *value)
 {
@@ -78,24 +33,40 @@ void	add_env(t_env **env_list, char *value)
 	tmp->next = new_node;
 }
 
+static int	init_default_env(t_env **env)
+{
+	char	cwd[1024];
+
+	if (!getcwd(cwd, sizeof(cwd)))
+		return (1);
+	add_env(env, ft_strjoin("PWD=", cwd));
+	add_env(env, ft_strdup("SHLVL=1"));
+	add_env(env, ft_strdup("_=/usr/bin/env"));
+	return (0);
+}
+
+static int	append_env_node(t_env **env, char *value)
+{
+	t_env	*new;
+
+	new = ft_malloc(sizeof(t_env), 1);
+	if (!new)
+		return (1);
+	new->value = ft_strdup(value);
+	new->next = NULL;
+	(*env)->next = new;
+	*env = new;
+	return (0);
+}
+
 int	env_init(t_mini *mini, char **env_array)
 {
 	t_env	*env;
-	t_env	*new;
 	int		i;
-	char	cwd[1024];
 
 	mini->env = NULL;
 	if (!env_array || !*env_array)
-	{
-		if (getcwd(cwd, sizeof(cwd)))
-		{
-			add_env(&mini->env, ft_strjoin("PWD=", cwd));
-			add_env(&mini->env, ft_strdup("SHLVL=1"));
-			add_env(&mini->env, ft_strdup("_=/usr/bin/env"));
-		}
-		return (0);
-	}
+		return (init_default_env(&mini->env));
 	env = ft_malloc(sizeof(t_env), 1);
 	if (!env)
 		return (1);
@@ -103,15 +74,10 @@ int	env_init(t_mini *mini, char **env_array)
 	env->next = NULL;
 	mini->env = env;
 	i = 1;
-	while (env_array && env_array[0] && env_array[i])
+	while (env_array[i])
 	{
-		new = ft_malloc(sizeof(t_env), 1);
-		if (!env)
+		if (append_env_node(&env, env_array[i]) == 1)
 			return (1);
-		new->value = ft_strdup(env_array[i]);
-		new->next = NULL;
-		env->next = new;
-		env = new;
 		i++;
 	}
 	return (0);
