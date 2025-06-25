@@ -6,41 +6,40 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:35:27 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/24 12:22:14 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:31:44 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../../includes/execution.h"
 
-static void		print_error(char **args)
+static void	print_error(char **args)
 {
 	ft_putstr_fd("cd: ", 2);
-	if (args[2]) // If a third argument exists (args[2]), it prints too many arguments
+	if (args[2])
 		ft_putstr_fd("too many arguments\n", 2);
 	else
 	{
-		// ft_putendl_fd(args[1], 2);
+		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(strerror(errno), 2);//It prints a description of the most recent error (based on errno) to the standard error.
+		ft_putstr_fd(strerror(errno), 2);
 		ft_putstr_fd("\n", 2);
 	}
 }
 
-static char		*get_env_path(t_env *env, const char *var, size_t len)
+static char	*get_env_path(t_env *env, const char *var, size_t len)
 {
 	char	*oldpwd;
 	int		s_alloc;
 
-	while (env) // original : while (env && env->next != NULL) // This loops over the linked list
+	while (env)
 	{
-		if (ft_strncmp(env->value, var, len) == 0 && env->value[len] == '=') // Check if prefix matches AND the next char is '='
+		if (ft_strncmp(env->value, var, len) == 0 && env->value[len] == '=')
 		{
 			s_alloc = ft_strlen(env->value) - (len + 1);
 			oldpwd = ft_malloc(sizeof(char) * (s_alloc + 1), 1);
-            if (!oldpwd)
-                return NULL;
-			ft_strcpy(oldpwd, env->value + len + 1); // Copy value part after 'var='
+			if (!oldpwd)
+				return (NULL);
+			ft_strcpy(oldpwd, env->value + len + 1);
 			return (oldpwd);
 		}
 		env = env->next;
@@ -55,24 +54,19 @@ static int	update_oldpwd(t_env *env)
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		return (ERROR);
-
 	oldpwd = ft_strjoin("OLDPWD=", cwd);
 	if (!oldpwd)
 		return (ERROR);
-
 	while (env)
 	{
 		if (ft_strncmp(env->value, "OLDPWD=", 7) == 0)
 		{
-			env->value = oldpwd;  // Take ownership of oldpwd
+			env->value = oldpwd;
 			return (SUCCESS);
 		}
 		env = env->next;
 	}
-
-	// Not found, add to env
 	env_add(oldpwd, env);
-	//free(oldpwd); // env_add makes a copy
 	return (SUCCESS);
 }
 
@@ -83,30 +77,21 @@ int	update_pwd(t_env *env)
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		return (ERROR);
-
 	pwd = ft_strjoin("PWD=", cwd);
 	if (!pwd)
 		return (ERROR);
-
 	while (env)
 	{
 		if (ft_strncmp(env->value, "PWD=", 4) == 0)
 		{
-			//free(env->value);
-			env->value = pwd;  // Take ownership
+			env->value = pwd;
 			return (SUCCESS);
 		}
 		env = env->next;
 	}
-
-	// Not found, add to env
 	env_add(pwd, env);
-	//free(pwd); // env_add makes a copy
 	return (SUCCESS);
 }
-
-
-
 
 static int	go_to_path(int option, t_env *env)
 {
@@ -118,7 +103,6 @@ static int	go_to_path(int option, t_env *env)
 		env_path = get_env_path(env, "HOME", 4);
 	else if (option == 1)
 		env_path = get_env_path(env, "OLDPWD", 6);
-
 	if (!env_path)
 	{
 		if (option == 0)
@@ -127,11 +111,9 @@ static int	go_to_path(int option, t_env *env)
 			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR);
 		return (ERROR);
 	}
-
 	ret = chdir(env_path);
 	if (ret == 0)
-		update_oldpwd(env);  // Only update if chdir succeeded
-	//ft_memdel(env_path);
+		update_oldpwd(env);
 	return (ret);
 }
 
@@ -161,115 +143,49 @@ char	*ft_strjoin1(const char *s1, const char *s2)
 	return (concat);
 }
 
-int				ft_cd(char **args, t_env *env)
+int	ft_cd(char **args, t_env *env)
 {
 	int		cd_ret;
-	char 	*oldpwd;
-	
+	char	*oldpwd;
+	char	*new_pwd;
+	char	*oldpwd_str;
 
-	if (!args[1]) //If no arguments: go to HOME
+	if (!args[1])
 		return (go_to_path(0, env));
 	if (args[2])
 	{
 		print_error(args);
-		return (1); // Return 1 for error if only one argument is given
+		return (1);
 	}
-	if (ft_strcmp(args[1], "-") == 0) //If argument is -: go to OLDPWD
+	if (ft_strcmp(args[1], "-") == 0)
 		cd_ret = go_to_path(1, env);
 	oldpwd = get_env_value("PWD", env);
 	if (!oldpwd)
-    	oldpwd = getcwd(NULL, 0);
-    cd_ret = chdir(args[1]);
+		oldpwd = getcwd(NULL, 0);
+	cd_ret = chdir(args[1]);
 	if (cd_ret == 0)
-    {
-		char *new_pwd = getcwd(NULL, 0);
-    	if (!new_pwd)
-    	{
-       		// `chdir` succeeded, but directory is invalid or deleted
-        	ft_putstr_fd("minishell: pwd: error retrieving current directory: No such file or directory\n", 2);
+	{
+		new_pwd = getcwd(NULL, 0);
+		if (!new_pwd)
+		{
+			ft_putstr_fd(
+				"minishell: pwd: error retrieving current directory: "
+				"No such file or directory\n",
+				2);
 			return (1);
-   		}
-        free(new_pwd);
-        // On success, update OLDPWD and PWD
-        if (oldpwd)
-        {
-            char *oldpwd_str = ft_strjoin("OLDPWD=", oldpwd);
-            if (env_update(oldpwd_str, env) == ERROR)
-    			env_add(oldpwd_str, env);
-            //free(oldpwd_str);
-        }
-        update_pwd(env); // This should get current directory and update PWD in env
-    }
-    else
-    {
-        print_error(args);
-    }
+		}
+		free(new_pwd);
+		if (oldpwd)
+		{
+			oldpwd_str = ft_strjoin("OLDPWD=", oldpwd);
+			if (env_update(oldpwd_str, env) == ERROR)
+				env_add(oldpwd_str, env);
+		}
+		update_pwd(env);
+	}
+	else
+		print_error(args);
 	if (cd_ret < 0)
 		return (-cd_ret);
 	return (cd_ret);
 }
-
-
-// int ft_cd(char **args, t_env *env)
-// {
-//     int cd_ret;
-//     char *oldpwd_raw = NULL;
-//     char *oldpwd = NULL;
-//     char *oldpwd_str = NULL;
-
-//     if (!args[1]) // No argument -> go to HOME
-//         return go_to_path(0, env);
-
-//     if (args[2]) // Too many arguments error
-//     {
-//         print_error(args);
-//         return (1);
-//     }
-
-//     if (ft_strcmp(args[1], "-") == 0) // cd -
-//         return go_to_path(1, env);
-
-//     // Get old PWD string from env, always strdup to own a copy
-//     oldpwd_raw = get_env_value("PWD", env);
-//     if (!oldpwd_raw) // fallback if not found
-//         oldpwd = getcwd(NULL, 0);
-//     else
-//         oldpwd = ft_strdup(oldpwd_raw);
-//     free(oldpwd_raw);
-
-//     cd_ret = chdir(args[1]);
-//     if (cd_ret == 0)
-//     {
-//         char *new_pwd = getcwd(NULL, 0);
-//         if (!new_pwd)
-//         {
-//             ft_putstr_fd("minishell: pwd: error retrieving current directory: No such file or directory\n", 2);
-//             free(oldpwd);
-//             return 1;
-//         }
-
-//         if (oldpwd)
-//         {
-//             oldpwd_str = ft_strjoin("OLDPWD=", oldpwd);
-//             if (oldpwd_str)
-//             {
-//                 if (env_update(oldpwd_str, env) == ERROR)
-//                     env_add(oldpwd_str, env);
-//                 free(oldpwd_str);
-//             }
-//         }
-//         free(oldpwd);
-//         free(new_pwd);
-
-//         update_pwd(env); // Updates PWD in env, assumed safe
-//     }
-//     else
-//     {
-//         print_error(args);
-//         free(oldpwd);
-//     }
-
-//     if (cd_ret < 0)
-//         return (-cd_ret);
-//     return (cd_ret);
-// }

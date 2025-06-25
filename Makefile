@@ -12,7 +12,7 @@ SRCS = src/main.c src/parser/parser.c src/signals/signals.c src/signals/signals_
 	   src/parser/heredoc.c src/execution/builtins/cd.c src/execution/builtins/echo.c src/execution/builtins/env.c \
 	   src/execution/builtins/exit.c src/execution/builtins/export.c src/execution/builtins/pwd.c \
 	   src/execution/builtins/unset.c src/execution/execution.c src/execution/builtins.c src/utils/memory_utils2.c \
-	   src/env/env.c src/env/get_env.c src/env/shlvl.c src/env/sort_env.c src/execution/free.c \
+	   src/env/env.c src/env/get_env.c src/env/shlvl.c src/env/sort_env.c \
 
 OBJS = $(SRCS:.c=.o)
 

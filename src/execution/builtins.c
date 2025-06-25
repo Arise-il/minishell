@@ -6,13 +6,13 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 08:48:23 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/20 15:20:23 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:30:37 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
 
-int		is_builtin(char *command)
+int	is_builtin(char *command)
 {
 	if (ft_strcmp(command, "echo") == 0)
 		return (1);
@@ -31,10 +31,10 @@ int		is_builtin(char *command)
 	return (0);
 }
 
-int		exec_builtin(char **args, t_mini *mini)
+int	exec_builtin(char **args, t_mini *mini)
 {
 	int		result;
-	
+
 	if (!args || !args[0])
 		return (1);
 	result = 0;

@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:36:02 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/05/31 18:55:09 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:32:28 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../../includes/execution.h"
 
@@ -23,20 +22,17 @@ static size_t	env_size(char *env)
 	return (i);
 }
 
-static void		free_node(t_mini *mini, t_env *env)
+static void	free_node(t_mini *mini, t_env *env)
 {
 	if (mini->env == env && env->next == NULL)
 	{
-		//ft_memdel(mini->env->value);
 		mini->env->value = NULL;
 		mini->env->next = NULL;
 		return ;
 	}
-	//ft_memdel(env->value);
-	//ft_memdel(env);
 }
 
-int				ft_unset(char **a, t_mini *mini)
+int	ft_unset(char **a, t_mini *mini)
 {
 	t_env	*env;
 	t_env	*tmp;
@@ -46,7 +42,8 @@ int				ft_unset(char **a, t_mini *mini)
 		return (SUCCESS);
 	if (ft_strncmp(a[1], env->value, env_size(env->value)) == 0)
 	{
-		mini->env = (env->next) ? env->next : mini->env;
+		if (env->next)
+			mini->env = env->next;
 		free_node(mini, env);
 		return (SUCCESS);
 	}

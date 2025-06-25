@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 08:26:48 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/20 15:20:35 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:30:04 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 # include "minishell.h"
 #include "../libft/libft.h"
-# include <stdlib.h>//./test_files/infile"
+# include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
-#include <limits.h>
 # include <fcntl.h>
 # include <dirent.h>
 # include <sys/wait.h>
 # include <limits.h>
 # include <errno.h>
+# include <sys/stat.h>
 
 
 # define STDIN 0
@@ -40,6 +40,8 @@
 # define SUCCESS 0
 # define IS_DIRECTORY 126
 # define UNKNOWN_COMMAND 127
+# define LLONG_MAX_STR 9223372036854775807
+
 
 int		exec_builtin(char **args, t_mini *mini);
 int		is_builtin(char *command);

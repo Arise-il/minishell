@@ -6,23 +6,22 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:36:14 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/20 10:59:26 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:42:46 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/execution.h"
 
-int		is_env_char(int c)
+int	is_env_char(int c)
 {
 	if (ft_isalnum(c) == 1 || c == '_')
 		return (1);
 	return (0);
 }
 
-int		is_valid_env(const char *env)
+int	is_valid_env(const char *env)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (ft_isdigit(env[i]) == 1)
@@ -38,10 +37,10 @@ int		is_valid_env(const char *env)
 	return (1);
 }
 
-int		env_value_len(const char *env)
+int	env_value_len(const char *env)
 {
-	int		i;
-	int		size_name;
+	int	i;
+	int	size_name;
 
 	size_name = 0;
 	i = 0;
@@ -64,7 +63,8 @@ char	*env_value(char *env)
 	char	*env_value;
 
 	size_alloc = env_value_len(env) + 1;
-	if (!(env_value = ft_malloc(sizeof(char) * size_alloc, 1)))
+	env_value = ft_malloc(sizeof(char) * size_alloc, 1);
+	if (!env_value)
 		return (NULL);
 	i = 0;
 	while (env[i] && env[i] != '=')
@@ -88,7 +88,6 @@ char	*get_env_value(char *arg, t_env *env)
 		get_env_name(env_name, env->value);
 		if (ft_strcmp(arg, env_name) == 0)
 		{
-			//ft_memdel(env_val);
 			env_val = env_value(env->value);
 			return (env_val);
 		}

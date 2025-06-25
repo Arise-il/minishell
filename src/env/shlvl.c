@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:36:19 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/05/31 18:54:32 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:43:15 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/execution.h"
 
-static int			invalid_lvl(const char *str)
+static int	invalid_lvl(const char *str)
 {
 	int		i;
 
@@ -27,7 +26,7 @@ static int			invalid_lvl(const char *str)
 	return (0);
 }
 
-static int			get_lvl(const char *str)
+static int	get_lvl(const char *str)
 {
 	int	i;
 	int	sign;
@@ -48,7 +47,7 @@ static int			get_lvl(const char *str)
 	return (num * sign);
 }
 
-void				increment_shell_level(t_env *env)
+void	increment_shell_level(t_env *env)
 {
 	int		shell_level;
 	char	env_name[BUFF_SIZE];
@@ -59,16 +58,13 @@ void				increment_shell_level(t_env *env)
 	if (ft_strcmp(shell_level_value, "") == 0)
 		return ;
 	shell_level = get_lvl(shell_level_value) + 1;
-	//ft_memdel(shell_level_value);
 	while (env && env->next)
 	{
 		get_env_name(env_name, env->value);
 		if (ft_strcmp("SHLVL", env_name) == 0)
 		{
-			//ft_memdel(env->value);
 			shlvl = ft_itoa(shell_level);
 			env->value = ft_strjoin("SHLVL=", shlvl);
-			//ft_memdel(shlvl);
 			return ;
 		}
 		env = env->next;
