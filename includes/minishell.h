@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:03:58 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/06/26 15:41:30 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:16:17 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_cmd
 	int				append;       // 0: >, 1: >>
 	int				heredoc;      // 1 if << used
 	int				redirection_error;
+	int				is_interrupted;
 	int				pipe_after;   // 1 if followed by pipe
 	struct s_cmd	*next;
 }	t_cmd;

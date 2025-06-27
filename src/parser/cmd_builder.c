@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:53:35 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/06/01 14:40:40 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:38:35 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	add_cmd_to_list(t_cmd **cmd_list, t_cmd *new_cmd)
 void	handle_redirection(t_cmd *cmd, t_token *token, t_env *env, int last_status)
 {
 	t_expand_data	expand_data;
+	char			*filename;
 
 	if (token->type == REDIR_IN)
 	{
@@ -122,7 +123,16 @@ void	handle_redirection(t_cmd *cmd, t_token *token, t_env *env, int last_status)
 		expand_data.str = NULL;
 		expand_data.i = NULL;
 		cmd->heredoc = 1;
-		cmd->infile = handle_heredoc(token->next->value, token->next->quoted, &expand_data);
+		filename = handle_heredoc(token->next->value, token->next->quoted, &expand_data);
+		//printf("%s\n", filename);
+		if (filename == NULL)
+		{
+			cmd->is_interrupted = 1;
+			cmd->redirection_error = 1;
+			//printf("%d\n", cmd->is_interrupted);
+			return ;
+		}
+		cmd->infile = filename;
 	}
 }
 

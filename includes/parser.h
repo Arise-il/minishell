@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:03:53 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/05/31 09:50:50 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:18:53 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char			*handle_heredoc(char *delimiter, int quoted, t_expand_data *expand_data);
 t_cmd			*build_command_table(t_token *tokens, t_env *env, int last_status);
 t_cmd			*parse_input(char *input, t_env *env, int last_exit_status);
 void			*ft_malloc(size_t size, int flag);
+void	handle_sigint(int sig);
+void	handle_sigint_heredoc(int sig);
 void			free_tokens(t_token *tokens);
 void			free_cmd_list(t_cmd *cmd_list);
 void			free_2d(char **arr);

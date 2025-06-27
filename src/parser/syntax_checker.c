@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 08:48:07 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/05/23 07:59:45 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:31:56 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,30 +35,37 @@ int	check_unclosed_quotes(const char *input)
 	return (0);
 }
 
+
 int	check_syntax(t_token *tokens)
 {
 	int	last_type;
+	int	heredoc_count = 0;
 
 	last_type = -1;
 	while (tokens)
 	{
 		if (tokens->type == PIPE)
 		{
-			// Check if pipe is at the beginning or end
 			if (last_type == PIPE || last_type == -1)
 				return (write(2, "Unexpected pipe\n", 17));
-			if (!tokens->next) // If pipe is at the end
+			if (!tokens->next)
 				return (write(2, "syntax error near unexpected token `|'\n", 40));
 		}
 		else if (tokens->type == REDIR_IN || tokens->type == REDIR_OUT
 			|| tokens->type == REDIR_APPEND || tokens->type == HEREDOC)
 		{
-			// Check if redirection operator is not followed by a valid file or command
 			if (!tokens->next || tokens->next->type != WORD)
 				return (write(2, "Redirection operator must be followed by a valid file or command\n", 66));
+			if (tokens->type == HEREDOC)
+			{
+				heredoc_count++;
+				if (heredoc_count > 16)
+					return (write(2, "minishell: maximum here-document count exceeded\n", 48));
+			}
 		}
 		last_type = tokens->type;
 		tokens = tokens->next;
 	}
-	return (0);  // No errors
+	return (0);
 }
+

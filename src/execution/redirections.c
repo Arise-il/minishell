@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 18:08:54 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/26 18:44:18 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:21:14 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ int	apply_infile_redir(t_cmd *cmd)
 int	handle_redirection_error(t_cmd *cmd)
 {
 	if (cmd->infile)
-		perror(cmd->infile);
+	{
+		if (cmd->is_interrupted != 1)
+			perror(cmd->infile);
+	}
 	else
 		perror(cmd->outfile);
 	return (-1);
