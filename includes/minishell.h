@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:03:58 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/05/31 09:40:32 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:41:30 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_mini {
 	t_env	*secret_env;
 	int exit_status; 
 	t_cmd	*cmds;
+	t_cmd	*current_cmd;
 }	t_mini;
 
 # include "parser.h"

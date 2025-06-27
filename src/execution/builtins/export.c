@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:35:52 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/25 16:32:09 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:39:08 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,66 +74,35 @@ char	*get_env_name(char *dest, const char *src)
 	return (dest);
 }
 
-int	is_in_env(t_env *env, char *args)
+int	handle_export_arg(char *arg, t_env *env)
 {
-	char	var_name[BUFF_SIZE];
-	char	env_name[BUFF_SIZE];
+	int	error_ret;
 
-	get_env_name(var_name, args);
-	while (env)
+	if (!is_valid_identifier(arg))
 	{
-		get_env_name(env_name, env->value);
-		if (ft_strcmp(var_name, env_name) == 0)
-			return (1);
-		env = env->next;
+		fprintf(stderr, "export: `%s': not a valid identifier\n", arg);
+		return (1);
 	}
+	if (arg[0] == '=')
+		error_ret = -3;
+	else
+		error_ret = is_valid_env(arg);
+	if (error_ret <= 0)
+	{
+		print_error(error_ret, arg);
+		return (1);
+	}
+	if (is_in_env(env, arg))
+		env_update(arg, env);
+	else
+		env_add(arg, env);
 	return (0);
-}
-
-int	is_valid_identifier(const char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s || !s[0])
-		return (0);
-	if (!(ft_isalpha(s[0]) || s[0] == '_'))
-		return (0);
-	while (s[i] && s[i] != '=')
-	{
-		if (!(ft_isalnum(s[i]) || s[i] == '_'))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	env_update(char *new_value, t_env *env)
-{
-	char	var_name[BUFF_SIZE];
-	char	env_name[BUFF_SIZE];
-
-	get_env_name(var_name, new_value);
-	while (env)
-	{
-		get_env_name(env_name, env->value);
-		if (ft_strcmp(var_name, env_name) == 0)
-		{
-			env->value = ft_strdup(new_value);
-			if (!env->value)
-				return (ERROR);
-			return (SUCCESS);
-		}
-		env = env->next;
-	}
-	return (ERROR);
 }
 
 int	ft_export(char **args, t_env *env)
 {
-	int		error_ret;
-	int		i;
-	int		status;
+	int	i;
+	int	status;
 
 	status = 0;
 	if (!args[1])
@@ -144,27 +113,8 @@ int	ft_export(char **args, t_env *env)
 	i = 1;
 	while (args[i])
 	{
-		if (!is_valid_identifier(args[i]))
-		{
-			fprintf(stderr, "export: `%s': not a valid identifier\n", args[i]);
+		if (handle_export_arg(args[i], env) != 0)
 			status = 1;
-			i++;
-			continue ;
-		}
-		error_ret = is_valid_env(args[i]);
-		if (args[i][0] == '=')
-			error_ret = -3;
-		if (error_ret <= 0)
-		{
-			print_error(error_ret, args[i]);
-			status = 1;
-			i++;
-			continue ;
-		}
-		if (is_in_env(env, args[i]))
-			env_update(args[i], env);
-		else
-			env_add(args[i], env);
 		i++;
 	}
 	return (status);
