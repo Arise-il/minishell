@@ -48,17 +48,6 @@ static char	*putword(char *word, char const *s, int i, int word_len)
 	return (word);
 }
 
-static char	**free_memory(char **ptr, int i)
-{
-	while (i > 0)
-	{
-		i--;
-		free(ptr[i]);
-	}
-	free(ptr);
-	return (NULL);
-}
-
 static char	**split_words(char const *s, char c, char **s2, int num_words)
 {
 	int	i;

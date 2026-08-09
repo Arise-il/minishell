@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 18:35:38 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/26 18:43:38 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:52:13 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,14 @@ void	wait_for_children(pid_t *pids, int total, t_mini *mini)
 		{
 			if (WIFEXITED(status))
 				mini->exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				mini->exit_status = 128 + WTERMSIG(status);
+			else if (WIFSTOPPED(status))
+				mini->exit_status = 128 + WSTOPSIG(status);
 			else
 				mini->exit_status = 1;
+			if (WTERMSIG(status) == SIGQUIT || WTERMSIG(status) == SIGINT)
+				write(1, "\n", 1);
 		}
 		i++;
 	}
@@ -84,8 +90,6 @@ int	count_commands(t_cmd *cmd_list)
 
 int	prepare_command(t_cmd *cmd, int pipe_fd[2])
 {
-	if (!cmd->args || !cmd->args[0])
-		return (1);
 	if (cmd->pipe_after && pipe(pipe_fd) == -1)
 		return (perror("pipe"), -1);
 	return (0);

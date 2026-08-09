@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:30:59 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/06/27 19:18:04 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:44:38 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int g_heredoc_interrupted;
 
 void	handle_sigint(int sig)
 {
@@ -21,17 +19,12 @@ void	handle_sigint(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	g_ctrl_c = 130;
 }
 
 void	setup_signals(void)
 {
 	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	ignore_parent_signals(void)
-{
-	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
 

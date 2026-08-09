@@ -1,8 +1,7 @@
 NAME = libft.a
 
 CC = cc
-CFLAGS = -g3
- #-Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 SRCS = only_spaces.c ft_substr.c ft_strlen.c ft_strdup.c ft_strcmp.c ft_strdup2.c \
        is_quote.c is_operator.c ft_strjoin.c strjoin_free.c ft_isalnum.c \
 	   ft_strncmp.c ft_itoa.c ft_split.c ft_strchr.c ft_bzero.c ft_calloc.c \
@@ -12,7 +11,7 @@ SRCS = only_spaces.c ft_substr.c ft_strlen.c ft_strdup.c ft_strcmp.c ft_strdup2.
 
 OBJS = $(SRCS:.c=.o)
 
-$(NAME) : $(OBJS)
+$(NAME) : $(OBJS) 
 	ar -rcs $(NAME) $(OBJS)
 
 ${OBJS} : %.o: %.c

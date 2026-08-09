@@ -6,13 +6,12 @@
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 08:27:01 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/06/02 12:46:50 by oouhlale         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:17:34 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// Extract variable name after $ (handles $VAR and $? only)
 char	*extract_var_name(const char *str, int *i)
 {
 	int	start;
@@ -28,7 +27,6 @@ char	*extract_var_name(const char *str, int *i)
 	return (ft_substr(str, start, *i - start));
 }
 
-// Get environment value or last status
 char	*get_var_value(const char *name, t_env *env, int last_status)
 {
 	size_t	name_len;
@@ -65,7 +63,6 @@ char	*append_var(t_expand_data data, char *result)
 	(*data.i)++;
 	var_name = extract_var_name(data.str, data.i);
 	value = get_var_value(var_name, data.env, data.last_status);
-	//printf("[%s]\n", value);
 	tmp = ft_strjoin(result, value);
 	return (tmp);
 }

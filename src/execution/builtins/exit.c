@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:33:17 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/26 13:29:25 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/06/29 16:35:42 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,15 @@ void	handle_invalid_arg(char *arg)
 
 long long	ft_atol_with_overflow(const char *str, int *overflow)
 {
-	int			i;
-	int			sign;
 	long long	num;
 
+	int (sign), (i);
 	num = 0;
 	sign = 1;
 	i = 0;
 	*overflow = 0;
+	if (!str)
+		return (*overflow = 1, 0);
 	if (str[i] == '-')
 		sign = -1;
 	if (str[i] == '-' || str[i] == '+')
@@ -49,8 +50,7 @@ long long	ft_atol_with_overflow(const char *str, int *overflow)
 			*overflow = 1;
 			if (sign == 1)
 				return (LLONG_MAX);
-			else
-				return (LLONG_MIN);
+			return (LLONG_MIN);
 		}
 		num = num * 10 + (str[i++] - '0');
 	}
@@ -73,7 +73,7 @@ void	mini_exit(t_cmd *cmd, char **args, t_mini *mini)
 		handle_too_many_args(cmd, mini);
 		return ;
 	}
-	else if (!ft_strisnum(args[1]) || overflow)
+	else if (args[1] && (!ft_strisnum(args[1]) || overflow))
 		handle_invalid_arg(args[1]);
 	if (args[1])
 	{

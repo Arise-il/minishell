@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:36:09 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/25 17:21:38 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:35:52 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,33 +78,6 @@ int	env_init(t_mini *mini, char **env_array)
 	{
 		if (append_env_node(&env, env_array[i]) == 1)
 			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	secret_env_init(t_mini *mini, char **env_array)
-{
-	t_env	*env;
-	t_env	*new;
-	int		i;
-
-	env = ft_malloc(sizeof(t_env), 1);
-	if (!env)
-		return (1);
-	env->value = ft_strdup(env_array[0]);
-	env->next = NULL;
-	mini->secret_env = env;
-	i = 1;
-	while (env_array && env_array[0] && env_array[i])
-	{
-		new = ft_malloc(sizeof(t_env), 1);
-		if (!new)
-			return (1);
-		new->value = ft_strdup(env_array[i]);
-		new->next = NULL;
-		env->next = new;
-		env = new;
 		i++;
 	}
 	return (0);

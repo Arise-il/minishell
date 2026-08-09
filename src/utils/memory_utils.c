@@ -1,70 +1,63 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory_utils.c                                     :+:      :+:    :+:   */
+/*   memory_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oouhlale <oouhlale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 09:46:29 by oouhlale          #+#    #+#             */
-/*   Updated: 2025/05/15 11:21:44 by oouhlale         ###   ########.fr       */
+/*   Created: 2025/05/31 09:39:59 by oouhlale          #+#    #+#             */
+/*   Updated: 2025/07/03 13:45:51 by oouhlale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_tokens(t_token *tokens)
+t_list	*ft_lstnew(void *content)
 {
-	t_token	*tmp;
+	t_list	*node;
 
-	while (tokens)
+	node = malloc(sizeof(t_list));
+	if (!node)
+		return (NULL);
+	node->content = content;
+	node->next = NULL;
+	return (node);
+}
+
+void	ft_lstadd_front(t_list **lst, t_list *new)
+{
+	if (lst && new)
 	{
-		tmp = tokens->next;
-		free(tokens->value);
-		free(tokens);
-		tokens = tmp;
+		new->next = *lst;
+		*lst = new;
 	}
 }
 
-void	free_cmd_list(t_cmd *cmd_list)
+void	*ft_malloc(size_t size, int flag)
 {
-	t_cmd	*tmp;
-	int		i;
+	void			*p;
+	static t_list	*data;
+	t_list			*node;
 
-	while (cmd_list)
+	p = NULL;
+	node = NULL;
+	if (flag == 0)
 	{
-		tmp = cmd_list->next;
-		if (cmd_list->args)
+		while (data)
 		{
-			i = 0;
-			while (cmd_list->args[i])
-			{
-				free(cmd_list->args[i]);
-				i++;
-			}
-			free(cmd_list->args);
+			node = data;
+			data = data->next;
+			free(node->content);
+			free(node);
 		}
-		if (cmd_list->infile)
-			free(cmd_list->infile);
-		if (cmd_list->outfile)
-			free(cmd_list->outfile);
-		free(cmd_list);
-		cmd_list = tmp;
+		return (NULL);
 	}
-}
-
-void	free_2d(char **arr)
-{
-	for (int i = 0; arr[i]; i++)
-		free(arr[i]);
-	free(arr);
-}
-
-void	free_str_array(char **arr)
-{
-	int	i = 0;
-	if (!arr)
-		return;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
+	p = malloc(size);
+	if (!p)
+	{
+		return (NULL);
+	}
+	node = ft_lstnew(p);
+	ft_lstadd_front(&data, node);
+	return (p);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_skip_spacenl.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cclaude <cclaude@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 18:26:24 by cclaude           #+#    #+#             */
-/*   Updated: 2020/02/06 15:38:11 by cclaude          ###   ########.fr       */
+/*   Updated: 2025/07/03 14:28:06 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 void	ft_skip_spacenl(const char *str, int *i)
 {
 	while ((str[*i] == ' ' || str[*i] == '\t' || str[*i] == '\n')
-	|| (str[*i] == '\r' || str[*i] == '\v' || str[*i] == '\f'))
+		|| (str[*i] == '\r' || str[*i] == '\v' || str[*i] == '\f'))
 		(*i)++;
 }

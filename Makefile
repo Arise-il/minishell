@@ -1,17 +1,17 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
-LDFLAGS = -lreadline
-#-fsanitize=address  
+CFLAGS = -Wall -Wextra -Werror
+LDFLAGS = -lreadline 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS = src/main.c src/parser/parser.c src/signals/signals.c src/signals/signals_utils.c \
+SRCS = src/main.c src/parser/parser.c src/signals/signals.c \
        src/utils/memory_utils.c src/parser/tokenizer.c src/parser/tokenizer_utils.c \
-	   src/parser/syntax_checker.c src/parser/cmd_builder.c src/parser/expander.c src/parser/expander_utils.c \
+	   src/parser/syntax_checker.c src/parser/redirections.c src/parser/cmd_builder.c src/parser/expander.c src/parser/expander_utils.c \
 	   src/parser/heredoc.c src/execution/builtins/cd.c src/execution/builtins/echo.c src/execution/builtins/env.c \
 	   src/execution/builtins/exit.c src/execution/builtins/export.c src/execution/builtins/export_utils.c src/execution/builtins/pwd.c \
-	   src/execution/builtins/unset.c  src/execution/builtins/cd_utils.c src/execution/execution.c src/execution/exe_utils.c src/execution/execute_external.c  src/execution/builtin_no_pipe.c  src/execution/redirections.c src/execution/builtins.c src/execution/pipes.c src/utils/memory_utils2.c \
+	   src/execution/builtins/unset.c  src/execution/builtins/cd_utils.c src/execution/execution.c src/execution/exe_utils.c src/execution/execute_external.c  \
+	   src/execution/builtin_no_pipe.c  src/execution/redirections.c src/execution/builtins.c src/execution/pipes.c\
 	   src/env/env.c src/env/get_env.c src/env/shlvl.c src/env/sort_env.c src/env/env_helper.c 
 
 OBJS = $(SRCS:.c=.o)

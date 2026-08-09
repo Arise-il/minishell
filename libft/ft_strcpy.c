@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 09:31:38 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/05/23 09:31:46 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:28:37 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 char	*ft_strcpy(char *dest, const char *src)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (src[i] != '\0')
 	{
 		dest[i] = src[i];

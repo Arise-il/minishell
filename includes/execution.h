@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 08:26:48 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/26 18:41:30 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:57:54 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define EXECUTION_H
 
 # include "minishell.h"
-#include "../libft/libft.h"
+# include "parser.h"
+# include "../libft/libft.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -25,7 +26,6 @@
 # include <limits.h>
 # include <errno.h>
 # include <sys/stat.h>
-
 
 # define STDIN 0
 # define STDOUT 1
@@ -42,37 +42,42 @@
 # define UNKNOWN_COMMAND 127
 # define LLONG_MAX_STR 9223372036854775807
 
+typedef struct s_mini
+{
+	t_env	*env;
+	int		exit_status;
+	t_cmd	*cmds;
+	t_cmd	*current_cmd;
+}	t_mini;
 
 int		exec_builtin(char **args, t_mini *mini);
 int		is_builtin(char *command);
 void	execute_commands(t_cmd *cmd_list, t_mini *mini);
 
 // BUILTINS
-int			ft_cd(char **args, t_env *env);
-int			ft_echo(char **args);
-int		    ft_env(t_env *env);
+int		ft_cd(char **args, t_env *env);
+int		ft_echo(char **args);
+int		ft_env(t_env *env);
 void	mini_exit(t_cmd *cmd, char **args, t_mini *mini);
-int			ft_export(char **args, t_env *env);
-int ft_pwd(t_env *env);
-int				ft_unset(char **a, t_mini *mini);
+int		ft_export(char **args, t_env *env);
+int		ft_pwd(t_env *env);
+int		ft_unset(char **a, t_mini *mini);
 
 //cd_utils
 char	*ft_strjoin1(const char *s1, const char *s2);
 void	cd_success(t_env *env, char *oldpwd);
-int	update_pwd(t_env *env);
+int		update_pwd(t_env *env);
 
 //export_utils
-int	is_valid_identifier(const char *s);
-int	is_in_env(t_env *env, char *args);
-int	env_update(char *new_value, t_env *env);
+int		is_valid_identifier(const char *s);
+int		is_in_env(t_env *env, char *args);
+int		env_update(char *new_value, t_env *env);
 
 //env
-int				secret_env_init(t_mini *mini, char **env_array);
 char	*get_env_value(char *arg, t_env *env);
-void				increment_shell_level(t_env *env);
-void		print_sorted_env(t_env *env);
-int	env_init(t_mini *mini, char **env_array);
-char	*env_to_str(t_env *lst);
+void	increment_shell_level(t_env *env);
+void	print_sorted_env(t_env *env);
+int		env_init(t_mini *mini, char **env_array);
 size_t	size_env(t_env *lst);
 
 //pipes
@@ -80,14 +85,14 @@ void	setup_pipes(t_cmd *cmd, int prev_read_fd, int pipe_fd[2]);
 void	close_unused_fds(int *prev_read_fd, t_cmd *cmd, int pipe_fd[2]);
 
 //redirections
-int	apply_outfile_redir(t_cmd *cmd);
-int	apply_infile_redir(t_cmd *cmd);
-int	handle_redirection_error(t_cmd *cmd);
-int	apply_redirections(t_cmd *cmd);
+int		apply_outfile_redir(t_cmd *cmd);
+int		apply_infile_redir(t_cmd *cmd);
+int		handle_redirection_error(t_cmd *cmd);
+int		apply_redirections(t_cmd *cmd);
 
-int	run_builtin_no_pipe(t_cmd *cmd, t_mini *mini);
+int		run_builtin_no_pipe(t_cmd *cmd, t_mini *mini);
 
-int	handle_if_path_is_directory(t_cmd *cmd);
+int		handle_if_path_is_directory(t_cmd *cmd);
 void	handle_path_command(t_cmd *cmd, char **envp);
 void	handle_exec_error(char *cmd_name, int err);
 void	execute_external(t_cmd *cmd, t_env *env);
@@ -95,25 +100,21 @@ void	execute_external(t_cmd *cmd, t_env *env);
 //exe_utils
 char	**env_to_array(t_env *env);
 void	wait_for_children(pid_t *pids, int total, t_mini *mini);
-int	update_fds(int prev_read_fd, t_cmd *cmd, int pipe_fd[2]);
-int	count_commands(t_cmd *cmd_list);
-int	prepare_command(t_cmd *cmd, int pipe_fd[2]);
+int		update_fds(int prev_read_fd, t_cmd *cmd, int pipe_fd[2]);
+int		count_commands(t_cmd *cmd_list);
+int		prepare_command(t_cmd *cmd, int pipe_fd[2]);
 
-
-
-
-int			env_add(const char *value, t_env *env);
-int			is_in_env(t_env *env, char *args);
+int		env_add(const char *value, t_env *env);
+int		is_in_env(t_env *env, char *args);
 int		is_valid_env(const char *env);
-int			is_in_env(t_env *env, char *args);
-char		*get_env_name(char *dest, const char *src);
-char			*env_to_str(t_env *lst);
+int		is_in_env(t_env *env, char *args);
+char	*get_env_name(char *dest, const char *src);
 
 void	setup_pipes(t_cmd *cmd, int prev_read_fd, int pipe_fd[2]);
 void	close_unused_fds(int *prev_read_fd, t_cmd *cmd, int pipe_fd[2]);
-int 	run_builtin_no_pipe(t_cmd *cmd, t_mini *mini);
+int		run_builtin_no_pipe(t_cmd *cmd, t_mini *mini);
 
-int	apply_redirections(t_cmd *cmd);
-int	env_update(char *new_value, t_env *env);
+int		apply_redirections(t_cmd *cmd);
+int		env_update(char *new_value, t_env *env);
 
 #endif

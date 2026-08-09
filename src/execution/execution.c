@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 09:07:43 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/06/26 18:42:32 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:04:55 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,13 @@ pid_t	fork_and_execute(
 	}
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		setup_pipes(cmd, prev_read_fd, pipe_fd);
 		if (apply_redirections(cmd) == -1)
 			exit(1);
+		if (!cmd->args || !cmd->args[0])
+			exit (0);
 		if (is_builtin(cmd->args[0]))
 			exit(exec_builtin(cmd->args, mini));
 		execute_external(cmd, mini->env);
@@ -61,7 +65,7 @@ pid_t	execute_command_logic(
 	t_mini *mini
 )
 {
-	if (is_builtin(cmd->args[0])
+	if (cmd && cmd->args && is_builtin(cmd->args[0])
 		&& !cmd->pipe_after
 		&& prev_read_fd == -1
 		&& !cmd->infile)

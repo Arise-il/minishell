@@ -6,7 +6,7 @@
 /*   By: iel-ghou <iel-ghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 10:16:13 by iel-ghou          #+#    #+#             */
-/*   Updated: 2025/05/23 10:16:21 by iel-ghou         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:26:07 by iel-ghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_split(char **split)
 	int	i;
 
 	if (!split)
-		return;
+		return ;
 	i = 0;
 	while (split[i])
 	{
